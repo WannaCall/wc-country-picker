@@ -63,7 +63,6 @@ object Countries {
     val dj = Country("Djibouti", "DJ", "+253", Res.drawable.dj)
     val dk = Country("Denmark", "DK", "+45", Res.drawable.dk)
     val dm = Country("Dominica", "DM", "+1", Res.drawable.dm)
-    val `do` = Country("Dominican Republic", "DO", "+1", Res.drawable.`do`)
     val dz = Country("Algeria", "DZ", "+213", Res.drawable.dz)
     val eac = Country("East Africa", "EAC", "+255", Res.drawable.eac)
     val ec = Country("Ecuador", "EC", "+593", Res.drawable.ec)
@@ -315,7 +314,6 @@ object Countries {
         dj,
         dk,
         dm,
-        `do`,
         dz,
         eac,
         ec,
