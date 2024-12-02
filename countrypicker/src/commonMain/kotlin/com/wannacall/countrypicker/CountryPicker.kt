@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wannacall.countrypicker.country.Country
@@ -43,12 +44,19 @@ import org.jetbrains.compose.resources.painterResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CountryPickerIcon(
-    country: Country
+    country: Country,
+    onSelection: (Country) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
 
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
+
+    val closeSheet: () -> Unit = {
+        coroutineScope.launch { sheetState.hide() }.invokeOnCompletion {
+            showBottomSheet = false
+        }
+    }
 
     Row(
         modifier = Modifier.clickable { showBottomSheet = true },
@@ -70,20 +78,20 @@ fun CountryPickerIcon(
     }
 
     if (showBottomSheet) ModalBottomSheet(
-        onDismissRequest = {
-            coroutineScope.launch { sheetState.hide() }.invokeOnCompletion {
-                showBottomSheet = false
-            }
-        },
+        onDismissRequest = closeSheet,
         sheetState = sheetState
     ) {
-        CountryPicker()
+        CountryPicker {
+            onSelection(it)
+            closeSheet()
+        }
     }
 }
 
 @Composable
 internal fun CountryPicker(
-    viewModel: CountryPickerViewModel = viewModel { CountryPickerViewModel() }
+    viewModel: CountryPickerViewModel = viewModel { CountryPickerViewModel() },
+    onSelection: (Country) -> Unit
 ) = Column(modifier = Modifier.padding(12.dp).fillMaxWidth()) {
     TextField(
         value = viewModel.searchQuery,
@@ -100,23 +108,30 @@ internal fun CountryPicker(
 
     Spacer(Modifier.height(8.dp))
 
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         items(viewModel.countries) {
             Row(
                 modifier = Modifier.height(45.dp)
-                    .clickable { /* TODO */ },
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    .fillMaxWidth()
+                    .clickable { onSelection(it) },
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = painterResource(it.flag),
-                    contentDescription = it.name,
-                    modifier = Modifier.clip(CircleShape)
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(.8f),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(it.flag),
+                        contentDescription = it.name,
+                        modifier = Modifier.clip(CircleShape)
+                    )
 
-                Text(it.name)
+                    Text(it.name)
+                }
+
+                Text(text = it.dialCode)
             }
         }
     }
