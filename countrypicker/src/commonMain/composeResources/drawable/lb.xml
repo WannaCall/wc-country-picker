@@ -8,12 +8,12 @@
         android:pathData="M-0.02,0l511.92,0l0,511.92L-0.02,511.92z"/>
     <path
         android:pathData="M-128,383.94l767.88,0l0,127.98L-128,511.92zM-128,0l767.88,0l0,127.98L-128,127.98z"
-        android:strokeWidth="1pt"
+        android:strokeWidth="1"
         android:fillColor="#EE161F"
         android:fillType="evenOdd"/>
     <path
         android:pathData="M-128,127.98l767.88,0l0,255.96L-128,383.94z"
-        android:strokeWidth="1pt"
+        android:strokeWidth="1"
         android:fillColor="#fff"
         android:fillType="evenOdd"/>
     <path

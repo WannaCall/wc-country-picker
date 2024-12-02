@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -82,16 +84,21 @@ fun CountryPickerIcon(
 @Composable
 internal fun CountryPicker(
     viewModel: CountryPickerViewModel = viewModel { CountryPickerViewModel() }
-) = Column(modifier = Modifier.fillMaxWidth()) {
+) = Column(modifier = Modifier.padding(12.dp).fillMaxWidth()) {
     TextField(
         value = viewModel.searchQuery,
         onValueChange = viewModel::onSearchQueryChange,
-        label = { Text("Search") }
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text("Search") },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null
+            )
+        }
     )
 
     Spacer(Modifier.height(8.dp))
-    Text(viewModel.searchQuery)
-    Text(viewModel.countries.size.toString())
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp)
