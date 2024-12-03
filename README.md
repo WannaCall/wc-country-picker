@@ -5,6 +5,4 @@
 Country Code Picker for Compose Multiplatform. Supported platforms:-
 - Android
 - iOS
-- Desktop
-- WASM Js
 - JVM
