@@ -30,7 +30,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun App() {
     var darkTheme by remember { mutableStateOf(false) }
 
-    var selectedCountry by remember { mutableStateOf(Countries.`in`) }
+    var selectedCountry by remember { mutableStateOf(Countries.us) }
 
     DemoAppTheme(darkTheme) {
         Surface {

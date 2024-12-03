@@ -30,7 +30,6 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
 
-            implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.lifecycle.viewmodel)
         }
     }
