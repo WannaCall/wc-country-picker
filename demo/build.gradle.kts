@@ -55,15 +55,15 @@ kotlin {
 }
 
 android {
-    namespace = "com.wannacall.demo"
+    namespace = "com.wannacall.countrypicker.demo"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.wannacall.demo"
+        applicationId = "com.wannacall.countrypicker.demo"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
     }
     packaging {
         resources {
@@ -87,11 +87,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "com.wannacall.demo.MainKt"
+        mainClass = "com.wannacall.countrypicker.demo.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.wannacall.demo"
+            packageName = "com.wannacall.countrypicker.demo"
             packageVersion = "1.0.0"
         }
     }

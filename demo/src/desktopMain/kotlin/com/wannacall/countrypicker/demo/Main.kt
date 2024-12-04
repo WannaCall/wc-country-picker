@@ -1,4 +1,4 @@
-package com.wannacall.demo
+package com.wannacall.countrypicker.demo
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
