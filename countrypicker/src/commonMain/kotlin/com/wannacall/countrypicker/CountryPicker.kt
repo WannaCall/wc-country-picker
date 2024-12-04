@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wannacall.countrypicker.country.Country
@@ -121,7 +122,7 @@ internal fun CountryPicker(
                     Image(
                         painter = painterResource(it.flag),
                         contentDescription = it.name,
-                        modifier = Modifier.clip(CircleShape)
+                        modifier = Modifier.padding(2.dp).clip(CircleShape)
                     )
 
                     Text(it.name)
