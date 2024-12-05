@@ -27,6 +27,17 @@ import org.jetbrains.compose.resources.painterResource
 
 private const val description = "Open country picker";
 
+/**
+ * Composable function that displays an icon representing a country and opens a bottom sheet for selecting a country.
+ *
+ * This function shows a clickable row with the country's flag, international dialing code, and a down arrow icon.
+ * When clicked, a modal bottom sheet is displayed where the user can select a country from a picker.
+ * The selected country is passed to the `onSelection` callback.
+ *
+ * @param country The `Country` object representing the currently displayed country with its name, code, and flag.
+ * @param onSelection A function that will be invoked when a country is selected from the bottom sheet.
+ *                    The selected `Country` object is passed to this function.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CountryPickerIcon(

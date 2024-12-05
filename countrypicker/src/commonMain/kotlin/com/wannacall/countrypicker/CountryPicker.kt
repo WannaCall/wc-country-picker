@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -33,6 +32,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wannacall.countrypicker.viewmodel.CountryPickerViewModel
 import org.jetbrains.compose.resources.painterResource
 
+/**
+ * Composable function that displays a list of countries with a search bar, allowing the user to search
+ * and select a country.
+ *
+ * This function displays a search bar at the top, where users can type a country name or country code.
+ * It will filter the countries based on the search query and display the filtered list in a scrollable
+ * list below. If no countries match the query, a message will be displayed indicating that no results
+ * were found. When a user selects a country from the list, the `onSelection` callback is invoked with the
+ * selected country.
+ *
+ * @param viewModel The `CountryPickerViewModel` responsible for managing the search query and filtered country list.
+ *                  If not provided, a default instance will be used.
+ * @param onSelection A function that is called when a country is selected from the list. The selected
+ *                    `Country` object is passed to this function.
+ */
 @Composable
 internal fun CountryPicker(
     viewModel: CountryPickerViewModel = viewModel(),

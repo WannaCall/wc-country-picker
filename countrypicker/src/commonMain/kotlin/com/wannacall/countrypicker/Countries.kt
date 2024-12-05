@@ -3,6 +3,14 @@ package com.wannacall.countrypicker
 import wc_country_picker.countrypicker.generated.resources.Res
 import wc_country_picker.countrypicker.generated.resources.*
 
+/**
+ * The `Countries` object is a singleton that contains a collection of predefined `Country` objects.
+ * Each `Country` object contains information about a specific country, including its name,
+ * ISO country code, dialing code, and the associated flag drawable resource.
+ *
+ * The `Countries` object can be used to access country data by calling the properties corresponding
+ * to each country, which are initialized as instances of the `Country` class.
+ */
 object Countries {
     val AD = Country("Andorra", "AD", "+376", Res.drawable.ad)
     val AE = Country("United Arab Emirates", "AE", "+971", Res.drawable.ae)
@@ -254,6 +262,13 @@ object Countries {
     val ZM = Country("Zambia", "ZM", "+260", Res.drawable.zm)
     val ZW = Country("Zimbabwe", "ZW", "+263", Res.drawable.zw)
 
+    /**
+     * A list containing all predefined country instances represented by their respective properties
+     * from the `Countries` object. Each entry in this list corresponds to a specific country and
+     * is represented by its corresponding country object, such as `AD`, `AE`, `AF`, etc.
+     *
+     * This list can be used to access all the countries defined within the `Countries` object.
+     */
     val ALL_COUNTRIES = listOf(
         AD, AE, AF, AG, AI, AL, AM, AO, AQ, AR,
         AS, AT, AU, AW, AX, AZ, BA, BB, BD, BE, BF, BG, BH, BI, BJ, BL, BM, BN,
