@@ -1,4 +1,4 @@
-package com.wannacall.demo
+package com.wannacall.countrypicker.demo
 
 import android.graphics.Color
 import android.os.Bundle
