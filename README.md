@@ -4,8 +4,8 @@
 |              Light Theme               |              Dark Theme               |
 |:--------------------------------------:|:-------------------------------------:|
 | ![](./assets/Android_light_closed.png) | ![](./assets/Android_dark_closed.png) |
-| ![](./assets/Android_light_drawer.png) | ![](./assets/Android_dark_drawer.png) |
-| ![](./assets/Android_light_search.png) | ![](./assets/Android_dark_search.png) |
+| ![](./assets/Android_light_drawer.png) | ![](./assets/Android_dark_search.png) |
+| ![](./assets/Android_light_search.png) | ![](./assets/Android_dark_drawer.png) |
 
 ## iOS
 |              Light Theme              |              Dark Theme              |
