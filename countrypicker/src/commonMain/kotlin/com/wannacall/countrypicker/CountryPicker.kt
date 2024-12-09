@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -19,11 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,68 +43,58 @@ import org.jetbrains.compose.resources.painterResource
  */
 @Composable
 internal fun CountryPicker(
-    viewModel: CountryPickerViewModel = viewModel(),
+    viewModel: CountryPickerViewModel = viewModel { CountryPickerViewModel() },
     onSelection: (Country) -> Unit
-) {
-    var isSearchEmpty by remember { mutableStateOf(true) }
+) = Column(Modifier.padding(12.dp).fillMaxWidth()) {
+    TextField(
+        value = viewModel.searchQuery,
+        onValueChange = viewModel::onSearchQueryChange,
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text("Search") },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search countries"
+            )
+        },
+        isError = viewModel.countries.isEmpty(),
+        placeholder = { Text("Enter country name or code") }
+    )
 
-    LaunchedEffect(viewModel.searchQuery) {
-        isSearchEmpty = viewModel.searchQuery.isEmpty()
-    }
+    if (viewModel.countries.isEmpty()) Text(
+        text = "No countries found",
+        modifier = Modifier.align(Alignment.CenterHorizontally)
+    )
 
-    Column(modifier = Modifier.padding(12.dp).fillMaxWidth()) {
+    Spacer(Modifier.height(8.dp))
 
-        TextField(
-            value = viewModel.searchQuery,
-            onValueChange = viewModel::onSearchQueryChange,
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text("Search") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search countries"
-                )
-            },
-            isError = viewModel.countries.isEmpty() && !isSearchEmpty,
-            placeholder = { Text("Enter country name or code") }
-        )
-
-        if (viewModel.countries.isEmpty() && !isSearchEmpty) {
-            Text("No countries found", modifier = Modifier.align(Alignment.CenterHorizontally))
-        }
-
-        Spacer(Modifier.height(8.dp))
-
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(viewModel.countries) { country ->
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        items(viewModel.countries) { country ->
+            Row(
+                modifier = Modifier
+                    .height(60.dp)
+                    .fillMaxWidth()
+                    .clickable { onSelection(country) },
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Row(
                     modifier = Modifier
-                        .height(60.dp)
-                        .fillMaxWidth()
-                        .clickable { onSelection(country) },
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                        .fillMaxWidth(.8f)
+                        .padding(4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(.8f)
-                            .padding(4.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(country.flagImageResource),
-                            contentDescription = country.countryName,
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .size(30.dp)
-                        )
+                    Image(
+                        painter = painterResource(country.flagImageResource),
+                        contentDescription = country.countryName,
+                        modifier = Modifier.padding(4.dp).clip(CircleShape)
+                    )
 
-                        Text(text = country.countryName)
-                    }
-
-                    Text(text = country.internationalDialCode)
+                    Text(country.countryName)
                 }
+
+                Text(country.internationalDialCode)
             }
         }
     }

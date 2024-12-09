@@ -25,8 +25,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
-private const val description = "Open country picker";
-
 /**
  * Composable function that displays an icon representing a country and opens a bottom sheet for selecting a country.
  *
@@ -44,16 +42,7 @@ fun CountryPickerIcon(
     country: Country,
     onSelection: (Country) -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState()
-
-    val closeSheet: () -> Unit = {
-        coroutineScope.launch { sheetState.hide() }.invokeOnCompletion {
-            showBottomSheet = false
-        }
-    }
-
     Row(
         modifier = Modifier.clickable { showBottomSheet = true },
         horizontalArrangement = Arrangement.spacedBy(2.dp),
@@ -69,19 +58,24 @@ fun CountryPickerIcon(
 
         Icon(
             imageVector = Icons.Default.KeyboardArrowDown,
-            contentDescription = description
+            contentDescription = "Open country picker"
         )
     }
 
-    if (showBottomSheet) {
-        ModalBottomSheet(
-            onDismissRequest = closeSheet,
-            sheetState = sheetState
-        ) {
-            CountryPicker {
-                onSelection(it)
-                closeSheet()
-            }
+    val coroutineScope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState()
+    val closeSheet: () -> Unit = {
+        coroutineScope
+            .launch { sheetState.hide() }
+            .invokeOnCompletion { showBottomSheet = false }
+    }
+    if (showBottomSheet) ModalBottomSheet(
+        onDismissRequest = closeSheet,
+        sheetState = sheetState
+    ) {
+        CountryPicker {
+            onSelection(it)
+            closeSheet()
         }
     }
 }
