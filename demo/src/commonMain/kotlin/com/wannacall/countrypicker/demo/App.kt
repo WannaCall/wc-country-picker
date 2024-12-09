@@ -1,4 +1,4 @@
-package com.wannacall.demo
+package com.wannacall.countrypicker.demo
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -23,9 +23,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.wannacall.countrypicker.Countries
 import com.wannacall.countrypicker.CountryPickerIcon
-import com.wannacall.countrypicker.country.Countries
-import com.wannacall.demo.ui.theme.DemoAppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -33,7 +32,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun App() {
     var darkTheme by remember { mutableStateOf(false) }
 
-    var selectedCountry by remember { mutableStateOf(Countries.us) }
+    var selectedCountry by remember { mutableStateOf(Countries.US) }
 
     DemoAppTheme(darkTheme) {
         Surface {
