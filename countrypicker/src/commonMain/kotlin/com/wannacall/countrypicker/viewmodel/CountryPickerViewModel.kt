@@ -14,7 +14,6 @@ import com.wannacall.countrypicker.Countries
  * the search query and filtering the countries by name, country code, or international dial code.
  */
 class CountryPickerViewModel : ViewModel() {
-
     /**
      * The current search query entered by the user.
      *
@@ -44,29 +43,10 @@ class CountryPickerViewModel : ViewModel() {
      */
     fun onSearchQueryChange(text: String) {
         searchQuery = text
-        if (searchQuery.isEmpty()) {
-            countries = Countries.ALL_COUNTRIES
-            return
-        }
-        filterCountries(searchQuery)
-    }
-
-    /**
-     * Filters the list of countries based on the given query.
-     *
-     * This method performs the filtering of the countries list by checking if the country name,
-     * country code, or international dial code contains the search query (case-insensitive).
-     *
-     * @param query The search query to filter the countries.
-     */
-    private fun filterCountries(query: String) {
-        if (query == searchQuery) {
-            val filteredCountries = Countries.ALL_COUNTRIES.filter {
-                it.countryName.contains(query, ignoreCase = true) ||
-                        it.countryCode.contains(query, ignoreCase = true) ||
-                        it.internationalDialCode.contains(query, ignoreCase = true)
-            }
-            countries = filteredCountries
+        countries = Countries.ALL_COUNTRIES.filter {
+            it.countryName.contains(searchQuery, ignoreCase = true) ||
+                    it.countryCode.contains(searchQuery, ignoreCase = true) ||
+                    it.internationalDialCode.contains(searchQuery, ignoreCase = true)
         }
     }
 }
