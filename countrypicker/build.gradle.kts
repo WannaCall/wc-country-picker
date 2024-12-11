@@ -5,6 +5,9 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    `maven-publish`
+    signing
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 kotlin {
@@ -21,6 +24,8 @@ kotlin {
     iosSimulatorArm64()
 
     jvm()
+
+    withSourcesJar()
 
     sourceSets {
         commonMain.dependencies {
@@ -61,4 +66,62 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+tasks.register<Jar>("dokkaHtmlJar") {
+    dependsOn(tasks.dokkaHtml)
+    from(tasks.dokkaHtml.flatMap { it.outputDirectory })
+    archiveClassifier.set("html-docs")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+
+            artifact("dokkaHtmlJar") {
+                classifier = "javadoc"
+            }
+
+            pom {
+                name = "WannaCall Country Picker"
+                description = "A country code picker for the Compose Multiplatform UI Framework"
+                url = "https://github.com/WannaCall/wc-country-picker/"
+
+                licenses {
+                    license {
+                        name = "GNU General Public License v3.0"
+                        url = "https://github.com/WannaCall/wc-country-picker/blob/main/LICENSE"
+                        distribution = "repo"
+                    }
+                }
+
+                developers {
+                    developer {
+                        name = "WannaCall"
+                    }
+                }
+
+                scm {
+                    connection = "scm:git:git://github.com/WannaCall/wc-country-picker.git"
+                    developerConnection = "scm:git:ssh://github.com/WannaCall/wc-country-picker.git"
+                    url = "https://github.com/WannaCall/wc-country-picker/"
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = findProperty("sonatypeUsername")?.toString() ?: System.getenv("SONATYPE_USERNAME")
+                password = findProperty("sonatypePassword")?.toString() ?: System.getenv("SONATYPE_PASSWORD")
+            }
+        }
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign(publishing.publications["mavenJava"])
 }
