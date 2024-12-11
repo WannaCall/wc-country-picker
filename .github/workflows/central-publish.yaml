@@ -1,0 +1,40 @@
+name: Build and Publish to Sonatype
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: # test to be removed before merge
+
+env:
+  SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+  SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+  GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "oracle"
+
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+
+      - name: Configure GPG passphrase
+        run: |
+          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --sign-key ${{ secrets.GPG_KEY_ID }}
+
+      - name: Publish to Sonatype
+        run: ./gradlew countrypicker:publish --no-daemon
+
+      - name: Clean up GPG keys
+        run: gpg --batch --yes --delete-secret-keys ${{ secrets.GPG_KEY_ID }}
